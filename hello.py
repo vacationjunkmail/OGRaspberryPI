@@ -38,7 +38,7 @@ def hello():
     
     config_file = "{}/".format(expanduser("~"))
     print(config_file)
-    return render_template('index.html', name = 'Dana', menu_data = data, menu_columns = columns)
+    return render_template('index.html', name = 'Je Suis', menu_data = data, menu_columns = columns)
     #return jsonify(a = sequence)
     #return jsonify(a = data)
 
