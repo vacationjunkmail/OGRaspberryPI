@@ -56,7 +56,7 @@ def calendar_data():
     events =[ {'title': 'All Day Event',
               'start': '2018-03-01'}
               ]
-
+    print(events)
     return jsonify(events = events)
 
 @app.errorhandler(Exception)
