@@ -6,7 +6,7 @@
     <link href="{{ url_for('static', filename='css/fullcalendar.print.min.css') }}" rel="stylesheet"  media="print">
 
     <script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/fullcalendar.min.js') }}"></script>
 
 <script>
@@ -24,7 +24,8 @@
       navLinks: true, // can click day/week names to navigate views
       eventLimit: true, // allow "more" link when too many events
       events: {
-        url: '/get_calendar_data/',
+        //url: '/get_calendar_data/',
+	url: '/calendar_data',
         error: function(e) {
           $('#script-warning').empty();
           $('#script-warning').show();

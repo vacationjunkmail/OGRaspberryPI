@@ -18,11 +18,11 @@ $(document).ready(function()
 			center: 'title',
 			right: 'month,basicWeek,basicDay'
 		},
-		defaultDate: '2018-10-12',
+		//defaultDate: '2018-10-12',
 		navLinks: true,
       		editable: true,
       		eventLimit: true, // allow "more" link when too many events
-      		/*
+      		
       		events:
 		{
       			url: '/calendar_data/',
@@ -31,9 +31,9 @@ $(document).ready(function()
 				$('#calendar-warning').show()
 			}
       		}
-     		 */
+     		 
 
-		events: function(start, end, timezone, callback) 
+		/*events: function(start, end, timezone, callback) 
 		{
 			$.ajax(
 			{
@@ -41,7 +41,6 @@ $(document).ready(function()
 				dataType: 'json',
 				data: 
 				{
-					// our hypothetical feed requires UNIX timestamps
 					start: start.unix(),
 					end: end.unix()
 				},
@@ -53,18 +52,10 @@ $(document).ready(function()
 					{
 						alert(data[i].title);
 					}
-					$(data).find('event').each(function() 
-					{
-						/*events.push(
-						{
-							title: $(this).attr('title'),
-							start: $(this).attr('start') // will be parsed
-				                });*/
-				         });
 					callback(events);
 				}
 			});
-		}
+		}*/
 
 
 	});

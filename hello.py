@@ -49,15 +49,24 @@ def me(yourname):
 @app.route("/calendar/")
 def calendar():
     return render_template('calendar.html')
+    #return render_template('json.html')
 
 @app.route("/calendar_data/")
 def calendar_data():
     print('here we go')
-    events =[ {'title': 'All Day Event',
-              'start': '2018-03-01'}
-              ]
+    events = []
+    d_ = {}
+    d_['title']='all day event'
+    d_['start']='2018-03-01'
+    events.append(d_)
+
+    d_ = {}
+    d_['title'] = 'Event'
+    d_['start'] = '2018-11-01'
+    events.append(d_)
+
     print(events)
-    return jsonify(events = events)
+    return jsonify(events)
 
 @app.errorhandler(Exception)
 def code_error(e):
