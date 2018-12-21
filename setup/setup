@@ -5,3 +5,5 @@ sudo apt-get install python3-flask -y
 sudo apt-get install mysql-server -y
 sudo apt-get install python3-mysql.connector -y
 sudo apt-get install vim-python-jedi -y
+sudo apt-get install uwsgi -y
+sudo apt-get install uwsgi-plugin-python3 -y

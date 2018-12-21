@@ -22,23 +22,31 @@ $(document).ready(function()
 		navLinks: true,
       		editable: true,
       		eventLimit: true, // allow "more" link when too many events
-      		
-      		events:
+      		/*events:
 		{
       			url: '/calendar_data/',
+			dataType:"json",
+			type: "GET",
+			contentType: "application/json",
+			success: function(d)
+			{
+				alert(d);	
+				
+			},
 			error: function()
 			{
 				$('#calendar-warning').show()
 			}
       		}
-     		 
-
-		/*events: function(start, end, timezone, callback) 
+     		*/ 
+		events: function(start, end, callback) 
 		{
 			$.ajax(
 			{
 				url: '/calendar_data/',
 				dataType: 'json',
+				//contentType: "application/json",
+				type: "GET",		
 				data: 
 				{
 					start: start.unix(),
@@ -46,16 +54,17 @@ $(document).ready(function()
 				},
 			        success: function(data) 
 				{
+					alert(data.events);
 					var events = [];
-					alert(data.length);
-					for(var i = 0; i < data.length; i++)
+					alert(JSON.stringify(data));
+					for(var i = 0; i < data[0].length; i++)
 					{
 						alert(data[i].title);
 					}
 					callback(events);
 				}
 			});
-		}*/
+		}
 
 
 	});
