@@ -10,21 +10,19 @@
 			<script src="{{ url_for('static' , filename='js/js.js') }}"></script>
 	</head>
 	<body>
-		
+		<!-- https://stackoverflow.com/questions/15974730/how-do-i-get-the-different-parts-of-a-flask-requests-url-->
 		<div class="container">
 			<div class = "table-responsive">
-				<h1>{{ name | safe }} Page!</h1>
+				<h1>{{ request.url_rule | replace("/","")| capitalize | safe }} {{ name | safe }} Page!</h1>
 				<table class = "table table-striped table-bordered table-hover table-condensed">
-					
-						<tr>
-							<td>Take Photo</td>
-							<td>
-								<a href="" type = "button" name = "cam" id = "cam" class = "btn take_photo"> Take Photo</a>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2"><div id="message" class="message"></div></td>
-						</tr>
+					<tr>
+						<td id = "cam_row">
+							<a href="" type = "button" name = "cam" id = "cam" class = "btn take_photo"> Take Photo</a>
+						</td>
+					</tr>
+					<tr id = "pic_row">
+						<td colspan="2"><div id="message" class="message"></div></td>
+					</tr>
 				</table>
 			</div>
 		</div>

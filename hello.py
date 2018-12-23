@@ -3,7 +3,7 @@ from db_conn.my_sql import get_connection
 #from werkzeug.debug import DebuggedApplication
 from os.path import expanduser
 
-import os, datetime
+import os, datetime, re
 
 from picamera import PiCamera
 from time import sleep
@@ -23,6 +23,7 @@ def hello():
     query = 'select * from dinner.menu;'
 
     query = mysql_db.select_query(query)
+    
     columns = query.column_names
     data = []
     for recordset in query.fetchall():
@@ -61,21 +62,21 @@ def cal_test():
 
 @app.route("/calendar_data/")
 def calendar_data():
-    print('here we go')
+    
     events = []
     d_ = {}
-    d_['title']='all day event'
+    d_['title']='Beans'
     d_['start']='2018-03-01'
     events.append(d_)
 
     d_ = {}
-    d_['title'] = 'Event'
+    d_['title'] = 'Greens'
     d_['start'] = '2018-11-01'
     events.append(d_)
 
-    print(events)
-    #return jsonify(events)
-    return jsonify({'teest':'nothing'})
+    
+    return jsonify(data = events)
+    #return jsonify({'teest':'nothing'})
     #return jsonify({'events':events})
 
 @app.route("/pythonscripts/")
@@ -115,21 +116,40 @@ def runscript():
 
 @app.route('/camera/')
 def camera():
-	
+		
 	if len(request.args):
 		
-		image_name = "{}/static/image.jpg".format(os.getcwd())
-		i = 'static/image.jpg'
-		camera = PiCamera()
-		camera.start_preview()
-		sleep(5)
+		my_time = datetime.datetime.now()
+		image_directory = "{}/static".format(os.getcwd())
+		image_name = '_image.jpg';
+		
+		#removes file if exists
+		check_file_exists(image_directory,image_name)
+		
+		image_name = "{}{}".format(int(my_time.timestamp()),image_name)
+		#print('{}/{}'.format(image_directory,image_name))
+		
+		pic_time = str(my_time.strftime('%A %B %-d %Y %-I:%M:%S %p'))
+		image_name = "{}/{}".format(image_directory,image_name)
+		
+		camera = PiCamera(resolution=(1280, 720))
+		sleep(10)
+		#camera.annotate_text = pic_time
+		#camera.start_preview()
+		
 		camera.capture(image_name)
-		camera.stop_preview()
+		#camera.stop_preview()
 		camera.close()
-		#print(request.args.get('take_photo'))
-		print(image_name)	
-		return jsonify({'photo':i})
-		#return jsonify(request.args.get('take_photo'))
+		
+		image_name = image_name.split('/')
+		image_name = "/".join(image_name[-2:])
+		
+		data = []
+		data.append({'photo':image_name})
+		data.append({'name':pic_time})
+
+		#return jsonify({'photo':image_name})
+		return jsonify(data = data)
 	else:	
 		return render_template("camera.html")
 		
@@ -138,5 +158,16 @@ def code_error(e):
     print(e)
     return 'error {}'.format(e)
 
+def check_file_exists(d,e):
+	
+	#e = '_{}.jpg'.format(e)
+	
+	text_files = [f for f in os.listdir(d) if f.endswith(e)]
+	
+	for file in text_files:
+		os.remove("{}/{}".format(d,file))	
+		
+	return ''
+	
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080)

@@ -8,67 +8,24 @@
 <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/fullcalendar.min.js') }}"></script>
 <script>
-$(document).ready(function() 
+$(function() 
 {
-	$('#calendar').fullCalendar(
+	$.ajax(
 	{
-      		header: 
+		url: '/calendar_data/',
+		success: function(data) 
 		{
-		      	left:'prev,next today',
-			center: 'title',
-			right: 'month,basicWeek,basicDay'
-		},
-		//defaultDate: '2018-10-12',
-		navLinks: true,
-      		editable: true,
-      		eventLimit: true, // allow "more" link when too many events
-      		/*events:
-		{
-      			url: '/calendar_data/',
-			dataType:"json",
-			type: "GET",
-			contentType: "application/json",
-			success: function(d)
+			alert(data);
+			/*alert(data.events);
+			var events = [];
+			alert(JSON.stringify(data));
+			for(var i = 0; i < data[0].length; i++)
 			{
-				alert(d);	
-				
-			},
-			error: function()
-			{
-				$('#calendar-warning').show()
+				alert(data[i].title);
 			}
-      		}
-     		*/ 
-		events: function(start, end, callback) 
-		{
-			$.ajax(
-			{
-				url: '/calendar_data/',
-				dataType: 'json',
-				//contentType: "application/json",
-				type: "GET",		
-				data: 
-				{
-					start: start.unix(),
-					end: end.unix()
-				},
-			        success: function(response) 
-				{
-					console.log(response);
-					//alert(response.data.length);
-					var events = [];
-					
-					for(var i = 0; i < response.data.length; i++)
-					{
-						//alert(data[i].title);
-						alert(response.data[i].title);
-					}
-					callback(events);
-				}
-			});
+*/
+			//callback(events);
 		}
-
-
 	});
 });
 </script>
