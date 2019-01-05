@@ -17,10 +17,10 @@ def hello():
     sequence = [0,1]
     while sequence[-1] < 9000:
         sequence.append(sequence[-2] + sequence[-1])
-    
+	
     mysql_db = get_connection()
     
-    query = 'select * from dinner.menu;'
+    query = 'select * from site_info.web_apps;'
 
     query = mysql_db.select_query(query)
     

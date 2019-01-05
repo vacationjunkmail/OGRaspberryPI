@@ -7,6 +7,7 @@
 <script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
 <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/fullcalendar.min.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static' , filename='css/bootstrap.min.css') }}">
 <script>
 $(document).ready(function() 
 {
@@ -60,8 +61,9 @@ $(document).ready(function()
 					
 					for(var i = 0; i < response.data.length; i++)
 					{
-						//alert(data[i].title);
-						alert(response.data[i].title);
+						
+						//alert(response.data[i].title);
+						$('#test').val(response.data[i].title);
 					}
 					callback(events);
 				}
@@ -98,10 +100,14 @@ $(document).ready(function()
 	}
 </style>
 </head>
-<body><input type = "text" name = "test" id = "test" value = "" />
+<body>
+	<form>
+	<input type = "text" name = "test" id = "test" value = "" />
+	</form>
   <div id = 'calendar-warning'>
 	  Error in calendar_data
   </div>
+  <a href="/"><span class="glyphicon glyphicon-home"></span></a> &nbsp;
   <div id='calendar'></div>
 
 </body>

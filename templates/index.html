@@ -16,14 +16,14 @@
 
 				<tr>
 					{% for column in menu_columns %}
-					<td>{{ column | upper }}</td>
+					<td>{{ column |replace("_"," ")| capitalize }}</td>
 					{% endfor %}
 				</tr>
 		                {% for data in menu_data %}
 					<tr>
 						<td>{{ data['id'] | safe }}</td>
-		                        	<td>{{ data['food'] | safe }}</td>
-		                        	<td>{{ data['date'] | safe }}</td>
+						<td><a href ="{{ data['site_name'] | safe }}">{{ data['site_name'] | safe }}</a></td>
+						<td>{{ data['site_description'] | safe }}</td>
 					</tr>
 		                {% endfor %}
 			</table>
