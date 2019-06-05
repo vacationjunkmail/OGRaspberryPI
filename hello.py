@@ -10,11 +10,12 @@ from time import sleep
 
 app = Flask(__name__)
 #app.wsgi_app = DebuggedApplication(app.wsgi_app,True)
-app.debug = True
+#app.debug = True
 
 @app.route("/")
 def hello():
     sequence = [0,1]
+    print('test')
     while sequence[-1] < 9000:
         sequence.append(sequence[-2] + sequence[-1])
 	
@@ -170,4 +171,4 @@ def check_file_exists(d,e):
 	return ''
 	
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=8080, debug=True)

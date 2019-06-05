@@ -6,7 +6,7 @@ from os.path import expanduser
 
 def read_config_file(filename = '.config.ini', section = 'mysql'):
     parser = configparser.ConfigParser()
-    config_file = "{}/{}".format(expanduser("~"),filename)
+    config_file = "/home/pi/{}".format(filename)
     parser.read(config_file,encoding = "utf-8")
 
     data = {}
