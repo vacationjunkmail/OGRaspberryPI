@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#read -p "Add comments now " comments;
+#read -p "Add comments now " comments so type whatever;
 git status;
 git add -A;
 read -p "Add comments now " comments;
