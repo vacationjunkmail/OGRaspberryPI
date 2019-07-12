@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, g
 from db_conn.my_sql import get_connection
 #from werkzeug.debug import DebuggedApplication
 from os.path import expanduser
@@ -12,10 +12,19 @@ app = Flask(__name__)
 #app.wsgi_app = DebuggedApplication(app.wsgi_app,True)
 #app.debug = True
 
+@app.before_request
+def before_request():
+	g.mysql_db = get_connection()
+	print("yes I am here")
+	
+@app.after_request
+def after_request(resp):
+	g.mysql_db.close_connection()
+	return resp
+	
 @app.route("/")
 def hello():
     sequence = [0,1]
-    print('test')
     while sequence[-1] < 9000:
         sequence.append(sequence[-2] + sequence[-1])
 	
@@ -55,30 +64,31 @@ def me(yourname):
 @app.route("/calendar/")
 def calendar():
     return render_template('calendar.html')
-    #return render_template('json.html')
-
-@app.route("/cal_test/")
-def cal_test():
-    return render_template('cal_test.html')
 
 @app.route("/calendar_data/")
 def calendar_data():
     
     events = []
+    cal_month = request.args['date'].split('/')
+    params = [int(cal_month[1])]
+    query = '''select `date` as start, `date` as end, `title` 
+				from dinner.menu where month(`date`) = ?
+			'''    
+    
+    data = g.mysql_db.select_params(query,params)
     d_ = {}
-    d_['title']='Beans'
-    d_['start']='2018-03-01'
+    d_['title'] = 'Beans'
+    d_['start'] = '2018-03-01'
+    d_['end'] = '2018-03-01'
     events.append(d_)
 
     d_ = {}
     d_['title'] = 'Greens'
-    d_['start'] = '2018-11-01'
+    d_['start'] = '2019-07-01'
+    d_['end'] = '2019-07-01'
     events.append(d_)
-
     
-    return jsonify(data = events)
-    #return jsonify({'teest':'nothing'})
-    #return jsonify({'events':events})
+    return jsonify(data = data[1])
 
 @app.route("/pythonscripts/")
 def pythonscripts():
@@ -171,4 +181,4 @@ def check_file_exists(d,e):
 	return ''
 	
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', debug=True)
