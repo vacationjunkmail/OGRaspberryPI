@@ -13,50 +13,64 @@ $(document).ready(function()
 {
 	$('#calendar').fullCalendar(
 	{
-		header: 
+      		header: 
 		{
-			left:'prev,next today',
+		      	left:'prev,next today',
 			center: 'title',
-			right: 'month,basicWeek,basicDay,year'
+			right: 'month,basicWeek,basicDay'
 		},
+		//defaultDate: '2018-10-12',
 		navLinks: true,
-		editable: true,
-		eventLimit: true, // allow "more" link when too many events
-		events:function(start, end, timezone,callback) 
+      		editable: true,
+      		eventLimit: true, // allow "more" link when too many events
+      		/*events:
 		{
-			var cal_date = $('#calendar').fullCalendar('getDate');
-			cal_date = cal_date.format('YYYY/MM/DD');
-			//console.log(cal_date);
-			var dataString = "date="+cal_date;
-			
+      			url: '/calendar_data/',
+			dataType:"json",
+			type: "GET",
+			contentType: "application/json",
+			success: function(d)
+			{
+				alert(d);	
+				
+			},
+			error: function()
+			{
+				$('#calendar-warning').show()
+			}
+      		}
+     		*/ 
+		events: function(start, end, callback) 
+		{
 			$.ajax(
 			{
 				url: '/calendar_data/',
-				dataType:'json',
-				type: 'GET',
-				contentType: 'application/json',
-				data:dataString,
-				success: function(resp)
+				dataType: 'json',
+				//contentType: "application/json",
+				type: "GET",		
+				data: 
 				{
-					var events = [];
-					for (i =0; i < resp.data.length; i++)
-					{
-						//console.log(resp.data[i].title);
-						events.push({
-							title: resp.data[i].title,
-							start: resp.data[i].start // will be parsed
-						});
-					}
-					//console.log(events);
-					callback(events);
-				
+					start: start.unix(),
+					end: end.unix()
 				},
-				error: function()
+				success: function(response) 
 				{
-					$('#calendar-warning').show()
+					console.log(response.data.length);
+					//alert(response.data.length);
+					var events = [];
+					console.log(response.data[0].title);
+					for(var i = 0; i < response.data.length; i++)
+					{
+						//alert(response.data[i].title);
+						$('#test').val(response.data[i].title);
+						
+					}
+					callback(events);
 				}
 			});
-      	}
+		}
+
+
 	});
 });
 </script>

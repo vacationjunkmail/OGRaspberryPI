@@ -15,15 +15,14 @@ $(function()
 		url: '/calendar_data/',
 		success: function(data) 
 		{
-			alert(data);
-			/*alert(data.events);
+			console.log(data);
+			//alert(data.events);
 			var events = [];
-			alert(JSON.stringify(data));
-			for(var i = 0; i < data[0].length; i++)
+			//alert(JSON.stringify(data));
+			for(var i = 0; i < data.length; i++)
 			{
-				alert(data[i].title);
+				console.log(data[i].title);
 			}
-*/
 			//callback(events);
 		}
 	});

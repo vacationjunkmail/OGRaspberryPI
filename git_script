@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#read -p "Add comments now " comments;
+sudo git status;
+sudo git add -A;
+read -p "Add comments now " comments;
+
+sudo git commit -m "$comments";
+sudo git push;
+echo "........";
+echo ".......";
+sudo git status;
