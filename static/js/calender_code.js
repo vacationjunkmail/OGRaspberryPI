@@ -4,9 +4,10 @@ $(document).ready(function()
 	{
 		header: 
 		{
-			left:'prev,next today',
-			center: 'title',
+			left:'today',
+			center: 'prev title next',
 			right: 'month,basicWeek,basicDay,year'
+			//right: 'month,basicWeek,basicDay,year'
 		},
 		navLinks: true,
 		editable: true,
@@ -15,10 +16,10 @@ $(document).ready(function()
 		{
 			var cal_date = $('#calendar').fullCalendar('getDate');
 			cal_date = cal_date.format('YYYY/MM/DD');
-			//console.log(cal_date);
+
 			var dataString = "date="+cal_date;
 			
-			console.log($('#calendar').fullCalendar());
+			//console.log($('#calendar').fullCalendar());
 			
 			$.ajax(
 			{
@@ -32,15 +33,12 @@ $(document).ready(function()
 					var events = [];
 					for (i =0; i < resp.data.length; i++)
 					{
-						//console.log(resp.data[i].title);
 						events.push({
 							title: resp.data[i].title,
 							start: resp.data[i].start // will be parsed
 						});
 					}
-					//console.log(events);
 					callback(events);
-				
 				},
 				error: function()
 				{
