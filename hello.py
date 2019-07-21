@@ -1,4 +1,6 @@
 from flask import Flask, jsonify, render_template, request, g
+from flask_wtf.csrf import CSRFProtect
+#from flask_wtf import Form
 from db_conn.my_sql import get_connection
 #from werkzeug.debug import DebuggedApplication
 from os.path import expanduser
@@ -8,15 +10,19 @@ import os, datetime, re
 from picamera import PiCamera
 from time import sleep
 
+csrf = CSRFProtect()
+
 app = Flask(__name__)
+csrf.init_app(app)
+app.config['SECRET_KEY'] = 'MoneyGrowsOnTrees'
+
 #app.wsgi_app = DebuggedApplication(app.wsgi_app,True)
 #app.debug = True
 
 @app.before_request
 def before_request():
 	g.mysql_db = get_connection()
-	print("yes I am here")
-	
+		
 @app.after_request
 def after_request(resp):
 	g.mysql_db.close_connection()
@@ -27,12 +33,10 @@ def hello():
     sequence = [0,1]
     while sequence[-1] < 9000:
         sequence.append(sequence[-2] + sequence[-1])
-	
-    mysql_db = get_connection()
     
     query = 'select * from site_info.web_apps;'
 
-    query = mysql_db.select_query(query)
+    query = g.mysql_db.select_query(query)
     
     columns = query.column_names
     data = []
@@ -50,12 +54,9 @@ def hello():
                     d[columns[c]] = str(row_value)
             c += 1
         data.append(d)
-    mysql_db.close_connection()
-    
+           
     config_file = "{}/".format(expanduser("~"))
     return render_template('index.html', name = 'Je Suis', menu_data = data, menu_columns = columns)
-    #return jsonify(a = sequence)
-    #return jsonify(a = data)
 
 @app.route("/me/<string:yourname>/")
 def me(yourname):
@@ -67,7 +68,7 @@ def calendar():
 
 @app.route("/calendar_data/")
 def calendar_data():
-    
+    print(request.headers)
     events = []
     cal_month = request.args['date'].split('/')
     params = [int(cal_month[1])]
@@ -76,26 +77,14 @@ def calendar_data():
 			'''    
     
     data = g.mysql_db.select_params(query,params)
-    d_ = {}
-    d_['title'] = 'Beans'
-    d_['start'] = '2018-03-01'
-    d_['end'] = '2018-03-01'
-    events.append(d_)
-
-    d_ = {}
-    d_['title'] = 'Greens'
-    d_['start'] = '2019-07-01'
-    d_['end'] = '2019-07-01'
-    events.append(d_)
     
     return jsonify(data = data[1])
 
 @app.route("/pythonscripts/")
 def pythonscripts():
 
-    mysql_db = get_connection()
     query = 'select id,`name`,"" as script from pythonscripts.scripts;'
-    query = mysql_db.select_query(query)
+    query = g.mysql_db.select_query(query)
     columns = query.column_names
     data = []
     for recordset in query.fetchall():
@@ -115,7 +104,7 @@ def pythonscripts():
                     d[columns[c]] = str(row_value)
             c += 1
         data.append(d)
-    mysql_db.close_connection()
+        
     return render_template("pythonscripts.html",menu_data = data, menu_columns = columns)
 
 @app.route('/runscript/')
@@ -163,6 +152,10 @@ def camera():
 		return jsonify(data = data)
 	else:	
 		return render_template("camera.html")
+
+@app.route('/calendar/add/')
+def add_item():
+	return 'nothing'
 		
 @app.errorhandler(Exception)
 def code_error(e):
@@ -181,4 +174,4 @@ def check_file_exists(d,e):
 	return ''
 	
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host =  '0.0.0.0', debug = True)

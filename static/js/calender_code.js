@@ -21,6 +21,8 @@ $(document).ready(function()
 			
 			//console.log($('#calendar').fullCalendar());
 			
+			var csrftoken = "{{ csrf_token() }}";
+			
 			$.ajax(
 			{
 				url: '/calendar_data/',
@@ -28,6 +30,16 @@ $(document).ready(function()
 				type: 'GET',
 				contentType: 'application/json',
 				data:dataString,
+				beforeSend:function(xhr,settings)
+				{
+					
+					console.log(csrftoken);
+					//alert(csrftoken);
+					//if (!/^(GET|HEAD|OPTIONS|TRACE|POST)$/i.test(settings.type) && !this.crossDomain) 
+					//{
+						xhr.setRequestHeader("X-CSRFToken", csrftoken);
+					//}
+				},
 				success: function(resp)
 				{
 					var events = [];

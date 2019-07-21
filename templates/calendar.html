@@ -12,11 +12,13 @@
 		<link rel="stylesheet" href="{{ url_for('static' , filename='css/calendar_code.css') }}">
 		</head>
 	<body>
+		
 		<!--
-		<form>
+		<form method="post">
 		<input type = "text" name = "test" id = "test" value = "" />
 		</form>
 		-->
+		{{ csrf_token () }}
 		<div id = 'calendar-warning'>
 			Error in calendar_data
 		</div>
