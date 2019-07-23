@@ -21,7 +21,7 @@ $(document).ready(function()
 			
 			//console.log($('#calendar').fullCalendar());
 			
-			var csrftoken = "{{ csrf_token() }}";
+			
 			
 			$.ajax(
 			{
@@ -32,9 +32,7 @@ $(document).ready(function()
 				data:dataString,
 				beforeSend:function(xhr,settings)
 				{
-					
-					console.log(csrftoken);
-					//alert(csrftoken);
+										//alert(csrftoken);
 					//if (!/^(GET|HEAD|OPTIONS|TRACE|POST)$/i.test(settings.type) && !this.crossDomain) 
 					//{
 						xhr.setRequestHeader("X-CSRFToken", csrftoken);

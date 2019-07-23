@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template, request, g
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect, CSRFError
 #from flask_wtf import Form
 from db_conn.my_sql import get_connection
 #from werkzeug.debug import DebuggedApplication
