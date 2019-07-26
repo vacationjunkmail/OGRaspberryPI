@@ -2,10 +2,10 @@
 sudo apt-get update -y
 sudo apt-get install nginx -y
 sudo apt-get install python3-flask -y
-pip3 install --user Flask-WTF -y
 sudo apt-get install mysql-server -y
 sudo apt-get install python3-mysql.connector -y
 sudo apt-get install vim-python-jedi -y
 sudo apt-get install uwsgi -y
 sudo apt-get install uwsgi-plugin-python3 -y
 sudo apt-get install geany -y
+pip3 install --user Flask-WTF -y

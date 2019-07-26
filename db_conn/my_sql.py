@@ -34,6 +34,8 @@ class get_connection():
 
     def select_query(self, query):
         self.curr.execute(query)
+        columns = self.curr.column_names
+        
         return self.curr
 
     def close_connection(self):

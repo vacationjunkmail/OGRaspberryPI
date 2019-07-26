@@ -13,8 +13,8 @@ from time import sleep
 csrf = CSRFProtect()
 
 app = Flask(__name__)
-csrf.init_app(app)
 app.config['SECRET_KEY'] = 'MoneyGrowsOnTrees'
+csrf.init_app(app)
 
 #app.wsgi_app = DebuggedApplication(app.wsgi_app,True)
 #app.debug = True
@@ -30,9 +30,6 @@ def after_request(resp):
 	
 @app.route("/")
 def hello():
-    sequence = [0,1]
-    while sequence[-1] < 9000:
-        sequence.append(sequence[-2] + sequence[-1])
     
     query = 'select * from site_info.web_apps;'
 
@@ -68,7 +65,6 @@ def calendar():
 
 @app.route("/calendar_data/")
 def calendar_data():
-    print(request.headers)
     events = []
     cal_month = request.args['date'].split('/')
     params = [int(cal_month[1])]
@@ -153,9 +149,15 @@ def camera():
 	else:	
 		return render_template("camera.html")
 
-@app.route('/calendar/add/')
+@app.route('/calendar/add/', methods = ['POST'])
 def add_item():
+	print('adding itme')
 	return 'nothing'
+
+#@app.errorhandler(CSRFError)
+#def handle_csrf_error(e):
+	#print(e)
+	#return ''
 		
 @app.errorhandler(Exception)
 def code_error(e):

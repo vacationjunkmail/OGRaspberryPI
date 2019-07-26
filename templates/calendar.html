@@ -10,16 +10,54 @@
 		<!--<link rel="stylesheet" href="{{ url_for('static' , filename='css/bootstrap.min.css') }}">-->
 		<script src="{{ url_for('static', filename='js/calender_code.js') }}"></script>
 		<link rel="stylesheet" href="{{ url_for('static' , filename='css/calendar_code.css') }}">
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 		</head>
 	<body>
 		
-		<!--
-		<form method="post">
-		<input type = "text" name = "test" id = "test" value = "" />
-		</form>
-		-->
 		<script>
+			$(document).ready(function(){
 			var csrftoken = "{{ csrf_token () }}";
+		$('form').on('submit',function(event) 
+	{
+		alert('asfasdfasdfadsf');
+		event.preventDefault();
+		
+		$.ajax(
+		{
+			url: '/calendar/add/',
+            data: $('form').serialize(),
+            type: 'POST',
+            beforeSend:function(xhr,settings)
+				{
+					var csrftoken = $('meta[name=csrf-token]').attr('content');
+										//alert(csrftoken);
+					//if (!/^(GET|HEAD|OPTIONS|TRACE|POST)$/i.test(settings.type) && !this.crossDomain) 
+					//{
+						xhr.setRequestHeader("X-CSRFToken", csrftoken);
+					//}
+				},
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+        
+    });
+});
+		</script>
+		
+		
+		<!--<form method="post" action="/calendar/add/">-->
+		<form>
+			<input type ="text" name = "CSRFToken" id = "CSRFToken" value = "{{ csrf_token() }}" />
+			<input type = "text" name = "test" id = "test" value = "" />
+			<input type = "submit" value="submit"/>
+		</form>
+		
+		<script>
+			//var csrftoken = "{#{ csrf_token () }#}";
 		</script>
 		
 		<div id = 'calendar-warning'>

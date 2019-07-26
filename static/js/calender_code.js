@@ -32,10 +32,11 @@ $(document).ready(function()
 				data:dataString,
 				beforeSend:function(xhr,settings)
 				{
+					var csrftoken = $('meta[name=csrf-token]').attr('content');
 										//alert(csrftoken);
 					//if (!/^(GET|HEAD|OPTIONS|TRACE|POST)$/i.test(settings.type) && !this.crossDomain) 
 					//{
-						xhr.setRequestHeader("X-CSRFToken", csrftoken);
+						//xhr.setRequestHeader("X-CSRFToken", csrftoken);
 					//}
 				},
 				success: function(resp)
