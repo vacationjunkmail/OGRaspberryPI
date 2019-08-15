@@ -3,67 +3,56 @@
 	<head>
 		<meta charset='utf-8' />
 		<link href="{{ url_for('static', filename='css/fullcalendar.min.css') }}" rel="stylesheet" />
-		<!--<link href="{{ url_for('static', filename='css/fullcalendar.print.min.css') }}" rel="stylesheet" media="print" />-->
 		<script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/fullcalendar.min.js') }}"></script>
-		<!--<link rel="stylesheet" href="{{ url_for('static' , filename='css/bootstrap.min.css') }}">-->
 		<script src="{{ url_for('static', filename='js/calender_code.js') }}"></script>
 		<link rel="stylesheet" href="{{ url_for('static' , filename='css/calendar_code.css') }}">
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 		</head>
 	<body>
 		
-		<script>
-			$(document).ready(function(){
-			var csrftoken = "{{ csrf_token () }}";
+	<script>
+	$(document).ready(function(){
+		var csrftoken = "{{ csrf_token () }}";
 		$('form').on('submit',function(event) 
-	{
-		alert('asfasdfasdfadsf');
-		event.preventDefault();
-		
-		$.ajax(
 		{
-			url: '/calendar/add/',
-            data: $('form').serialize(),
-            type: 'POST',
-            beforeSend:function(xhr,settings)
+			event.preventDefault();
+			$.ajax(
+			{
+				url: '/calendar/add/',
+				data: $('form').serialize(),
+				type: 'POST',
+				beforeSend:function(xhr,settings)
 				{
 					var csrftoken = $('meta[name=csrf-token]').attr('content');
-										//alert(csrftoken);
 					//if (!/^(GET|HEAD|OPTIONS|TRACE|POST)$/i.test(settings.type) && !this.crossDomain) 
 					//{
 						xhr.setRequestHeader("X-CSRFToken", csrftoken);
 					//}
 				},
-            success: function(response) {
-                console.log(response);
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-        
-    });
-});
-		</script>
-		
-		
-		<!--<form method="post" action="/calendar/add/">-->
-		<form>
-			<input type ="text" name = "CSRFToken" id = "CSRFToken" value = "{{ csrf_token() }}" />
-			<input type = "text" name = "test" id = "test" value = "" />
-			<input type = "submit" value="submit"/>
-		</form>
-		
-		<script>
-			//var csrftoken = "{#{ csrf_token () }#}";
-		</script>
-		
-		<div id = 'calendar-warning'>
-			Error in calendar_data
-		</div>
-		<a href="/"><span class="glyphicon glyphicon-home"></span></a> &nbsp;
-		<div id='calendar'></div>
+				success: function(response) {
+					console.log(response);
+				},
+				error: function(error) 
+				{
+					console.log(error);
+				}
+			});      
+		});
+	});
+	</script>
+	<!--
+	<form>
+		<input type ="text" name = "CSRFToken" id = "CSRFToken" value = "{{ csrf_token() }}" />
+		<input type = "text" name = "test" id = "test" value = "" />
+		<input type = "submit" value="submit"/>
+	</form>
+	-->
+	<div id = 'calendar-warning'>
+		Error in calendar_data
+	</div>
+	<a href="/"><span class="glyphicon glyphicon-home"></span></a> &nbsp;
+	<div id='calendar'></div>
 	</body>
 </html>

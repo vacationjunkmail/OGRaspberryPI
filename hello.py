@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request, g
+from flask import Flask, jsonify, render_template, request, g, session, flash
 from flask_wtf.csrf import CSRFProtect, CSRFError
 #from flask_wtf import Form
 from db_conn.my_sql import get_connection
@@ -65,6 +65,7 @@ def calendar():
 
 @app.route("/calendar_data/")
 def calendar_data():
+    #print(request.headers)
     events = []
     cal_month = request.args['date'].split('/')
     params = [int(cal_month[1])]
@@ -158,10 +159,61 @@ def add_item():
 #def handle_csrf_error(e):
 	#print(e)
 	#return ''
+
+@app.route('/calendar/login/', methods = ['GET'])
+def login():
+	
+	insert_query = '''insert into test_db.test_tbl(username,pwd)values(%s,%s);'''
+
+	for num in range(1,2):
+		username = "dana_{}".format(num)
+		pwd = "pwd_{}".format(num)
+		params = [username,pwd]
+		
+		return_msg = g.mysql_db.insert_statement(insert_query,params)
+		print(return_msg)
+		
+		#print(params)
+	
+	if not session.get('logged_in'):
+		#flash('wrong username/password!')
+		return render_template('login.html')
+	else:
+		return 'here'#calindex()
+
+
+@app.route('/calendar/login_check/', methods = ['POST'])
+def login_check():
+	print(request.form)
+	try:
+		query = 'select id,username from auth_users.users where username = %s and pwd = %s;'
+		params = [request.form['username'],request.form['password']]
+		
+		data = g.mysql_db.select_params(query,params)
+		if len(data[1]) == 1:
+			print(data[1][0]['username'])
+			print(data[1][0]['id'])
+		else:
+			flash('wrong username/password!','error')
+			#return render_template('login.html')
+			return login()
+			
+	except Exception as e:
+		print(e)
+	
+	return'no'
+
+@app.route('/calendar/index/', methods =['GET'])
+def calindex():
+	if not session.get('logged_in'):
+		return render_template('login.html')
+	
+	return render_template('calindex.html')
 		
 @app.errorhandler(Exception)
 def code_error(e):
-    print(e)
+    print("an error happened\n\t{}".format(e))
+    
     return 'error {}'.format(e)
 
 def check_file_exists(d,e):

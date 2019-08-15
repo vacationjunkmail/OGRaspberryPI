@@ -1,6 +1,8 @@
 # import mysql.connector
 from mysql.connector import (connection)  # MySQLConnector
 from mysql.connector.cursor import MySQLCursorPrepared
+from mysql.connector import Error
+
 import configparser,datetime
 from os.path import expanduser
 
@@ -35,8 +37,20 @@ class get_connection():
     def select_query(self, query):
         self.curr.execute(query)
         columns = self.curr.column_names
-        
+
         return self.curr
+
+    def insert_statement(self,query,params):
+        try:
+            self.conn.start_transaction()
+            #self.curr.start_transaction()
+            self.curr.execute('''insert into test_db.test_tbl(username,pwd)values("manualinsert","pwd_insert");''')
+            self.curr.execute(query,params)
+            self.conn.commit()
+            return "insert was good"
+        except Error as err:
+            self.conn.rollback()
+            return err
 
     def close_connection(self):
         self.conn.close()
