@@ -21,6 +21,7 @@ csrf.init_app(app)
 
 @app.before_request
 def before_request():
+	
 	g.mysql_db = get_connection()
 		
 @app.after_request
@@ -155,11 +156,6 @@ def add_item():
 	print('adding itme')
 	return 'nothing'
 
-#@app.errorhandler(CSRFError)
-#def handle_csrf_error(e):
-	#print(e)
-	#return ''
-
 @app.route('/calendar/login/', methods = ['GET'])
 def login():
 	
@@ -200,6 +196,7 @@ def login_check():
 			
 	except Exception as e:
 		print(e)
+		print("asdf-------------------------------")
 	
 	return'no'
 
@@ -210,8 +207,8 @@ def calindex():
 	
 	return render_template('calindex.html')
 		
-@app.errorhandler(Exception)
-def code_error(e):
+@app.errorhandler(500)
+def handle_csrf_error(e):
     print("an error happened\n\t{}".format(e))
     
     return 'error {}'.format(e)
