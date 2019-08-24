@@ -12,11 +12,9 @@
 	<body>
       {% with messages = get_flashed_messages(with_categories=true) %}
          {% if messages %}
-            <ul>
-               {% for category, message in messages %}
-               <li class="{{ category }}">{{ message }}</li>
-               {% endfor %}
-            </ul>
+            {% for category, message in messages %}
+				<div class="isa_{{ category }}">{{ message }}</div>
+			{% endfor %}
          {% endif %}
       {% endwith %}		
 		<form action="../login_check/" method="POST">
