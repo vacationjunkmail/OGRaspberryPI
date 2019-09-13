@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request, g, session, flash
+from flask import Flask, jsonify, render_template, request, g, session, flash, redirect,url_for
 from flask_wtf.csrf import CSRFProtect, CSRFError
 #from flask_wtf import Form
 from db_conn.my_sql import get_connection
@@ -159,15 +159,15 @@ def add_item():
 @app.route('/calendar/login/', methods = ['GET'])
 def login():
 	
-	insert_query = '''insert into test_db.test_tbl(username,pwd)values(%s,%s);'''
+	#insert_query = '''insert into test_db.test_tbl(username,pwd)values(%s,%s);'''
 
-	for num in range(1,2):
-		username = "dana_{}".format(num)
-		pwd = "pwd_{}".format(num)
-		params = [username,pwd]
+	#for num in range(1,2):
+		#username = "dana_{}".format(num)
+		#pwd = "pwd_{}".format(num)
+		#params = [username,pwd]
 		
-		return_msg = g.mysql_db.insert_statement(insert_query,params)
-		print(return_msg)
+		#return_msg = g.mysql_db.insert_statement(insert_query,params)
+		#print(return_msg)
 		
 		#print(params)
 	
@@ -192,7 +192,8 @@ def login_check():
 		else:
 			flash('wrong username/password!','error')
 			#return render_template('login.html')
-			return login()
+			#return login()
+			return redirect(url_for('login'))
 			
 	except Exception as e:
 		print(e)
