@@ -1,0 +1,9 @@
+[uwsgi]
+http-socket = :6060
+mount = /cal_app=hello.py
+callable = app 
+die-on-term = true
+plugin = python3
+#plugin = logfile 
+#logger = file:/tmp/app_log
+py-auto-reload = 1

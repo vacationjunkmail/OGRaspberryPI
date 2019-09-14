@@ -1,0 +1,14 @@
+[Unit]
+Description=uWsgi instance to start cal_app and other sites.
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+#ExecStart=/usr/bin/env/ bash -c 'cd /var/www/cal_app/; uwsgi uwsgi.ini'
+WorkingDirectory=/var/www/cal_app
+ExecStart=/usr/bin/uwsgi uwsgi.ini
+
+[Install]
+WantedBy=multi-user.target
+
