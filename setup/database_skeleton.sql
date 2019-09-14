@@ -67,7 +67,8 @@ CREATE TABLE `menu` (
   `id` int(10) unsigned NOT NULL,
   `date` date DEFAULT NULL,
   `title` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `date_idx` (`date`)
 );
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -662,4 +663,4 @@ CREATE TABLE `test_tbl` (
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-07  2:00:02
+-- Dump completed on 2019-09-14  2:00:01
