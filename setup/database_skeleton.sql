@@ -77,6 +77,35 @@ CREATE TABLE `menu` (
 --
 
 --
+-- Current Database: `error_db`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `error_db` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `error_db`;
+
+--
+-- Table structure for table `error_log`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `error_log` (
+  `id` int(11) unsigned NOT NULL,
+  `error_message` varchar(100) NOT NULL,
+  `data` varchar(100) NOT NULL,
+  `file_source` varchar(100) DEFAULT NULL,
+  `script_source` varchar(100) NOT NULL,
+  `insert_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping routines for database 'error_db'
+--
+
+--
 -- Current Database: `mysql`
 --
 
@@ -663,4 +692,4 @@ CREATE TABLE `test_tbl` (
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-14  2:00:01
+-- Dump completed on 2019-10-08 19:33:04

@@ -20,9 +20,6 @@ $(document).ready(function()
 			var dataString = "date="+cal_date;
 			
 			//console.log($('#calendar').fullCalendar());
-			
-			
-			
 			$.ajax(
 			{
 				url: '/calendar_data/',
@@ -49,15 +46,16 @@ $(document).ready(function()
 							start: resp.data[i].start // will be parsed
 						});
 					}
+					$('#calendar-warning').hide();
 					callback(events);
 				},
 				error: function()
 				{
-					$('#calendar-warning').show()
+					$('#calendar-warning').show();
 				}
 			});
 			
-      	}
+	      	}
 	});
 	
 });

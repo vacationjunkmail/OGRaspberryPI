@@ -2,6 +2,7 @@
 from mysql.connector import (connection)  # MySQLConnector
 from mysql.connector.cursor import MySQLCursorPrepared
 from mysql.connector import Error
+from mysql.connector.constants import ClientFlag
 
 import configparser,datetime
 from os.path import expanduser
@@ -13,7 +14,6 @@ def read_config_file(filename='.config.ini', section='mysql'):
     parser.read(config_file, encoding="utf-8")
 
     data = {}
-    #print(config_file)
 
     if parser.has_section(section):
         items = parser.items(section)
@@ -21,8 +21,6 @@ def read_config_file(filename='.config.ini', section='mysql'):
             data[item[0]] = item[1]
     else:
         raise Exception("{0} not found in {1}".format(section, config_file))
-
-    #print(data)
 
     return data
 
@@ -32,6 +30,11 @@ class get_connection():
     def __init__(self):
         self.db_config = read_config_file()
         self.conn = connection.MySQLConnection(**self.db_config)
+        #a = "username={user}\npassword={password}".format(**self.db_config)
+        #print(a)
+        #for item in dir(self.conn):
+            #print(item)
+        #print(self.conn._server_version)
         self.curr = self.conn.cursor(cursor_class=MySQLCursorPrepared)
 
     def select_query(self, query):
@@ -66,7 +69,7 @@ class get_connection():
         except Exception as e:
             error.append(e)
         return columns,data,error
-		
+
     def fetchresults(self,columns,query):
         data = []
         for recordset in query:
