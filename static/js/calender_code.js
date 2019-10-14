@@ -41,10 +41,23 @@ $(document).ready(function()
 					var events = [];
 					for (i =0; i < resp.data.length; i++)
 					{
-						events.push({
+						
+						if(i == (resp.data.length-1))
+						{
+							console.log(resp.data[i].start);
+							events.push({
+								title:resp.data[i].title,
+								start:resp.data[i].start,
+								end:'2019-10-13',
+							});
+						}
+						else
+						{
+							events.push({
 							title: resp.data[i].title,
 							start: resp.data[i].start // will be parsed
-						});
+							});
+						}
 					}
 					$('#calendar-warning').hide();
 					callback(events);
@@ -59,3 +72,4 @@ $(document).ready(function()
 	});
 	
 });
+

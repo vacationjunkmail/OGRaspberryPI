@@ -10,7 +10,7 @@ insert_query = '''insert into dinner.menu(`date`,`title`)values(%s,%s);'''
 insert_error = '''insert into error_db.error_log(error_message,data,file_source,script_source)values(%s,%s,%s,%s)'''
 
 def stop_me():
-	print("Planned exit Program did not finish")
+	print("Planned exit Program did not finish!")
 	sys.exit()
 	return ''
 
@@ -67,4 +67,30 @@ for file in os.listdir(path):
 		code = "load data local infile '{}' into table test_db.test_tbl fields terminated by ',' optionally enclosed by '\"' lines terminated by '\\n' (id,username,pwd);"
 		#print(code)
 		#mysql_db.load_data_infile(code)	
+q = mysql_db.select_query('''select * from dinner.menu order by `date`;''')
+q = q.fetchall()
+menu_start_dict = {}
+menu_end_dict = {}
+for recordset in q:
+	title = str(recordset[2].decode())
+	title = title.replace('&','#amp;')
+	date = recordset[1]
+	year_month = date.strftime("%Y_%b")
+
+	if year_month in menu_start_dict and title in menu_start_dict[year_month]:
+		menu_end_dict[year_month] = {title:date}
+	else:
+		menu_start_dict[year_month] = {title:date}
+		menu_end_dict[year_month] = {title:date}
+
+	#with open('/home/pi/Desktop/merged_data.txt','a+') as f:
+	#	f.write("{} {}\n".format(recordset[1],t))
+
 mysql_db.close_connection()
+
+for key_one in menu_start_dict:
+	print(key_one)
+	for key_two in menu_start_dict[key_one]:
+		print("title = {}\tstart date = {}\tend date = {}".format(key_two,menu_start_dict[key_one][key_two],menu_end_dict[key_one][key_two]) )
+
+print(menu_start_dict['2019_Aug'])
