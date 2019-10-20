@@ -42,22 +42,11 @@ $(document).ready(function()
 					for (i =0; i < resp.data.length; i++)
 					{
 						
-						if(i == (resp.data.length-1))
-						{
-							console.log(resp.data[i].start);
-							events.push({
-								title:resp.data[i].title,
-								start:resp.data[i].start,
-								end:'2019-10-13',
-							});
-						}
-						else
-						{
 							events.push({
 							title: resp.data[i].title,
-							start: resp.data[i].start // will be parsed
+							start: resp.data[i].start, // will be parsed
+							end: resp.data[i].end
 							});
-						}
 					}
 					$('#calendar-warning').hide();
 					callback(events);

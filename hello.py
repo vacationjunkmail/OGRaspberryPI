@@ -74,8 +74,8 @@ def calendar_data():
     events = []
     cal_month = request.args['date'].split('/')
     params = [int(cal_month[1])]
-    query = '''select `date` as start, `date` as end, `title` 
-				from dinner.menu where month(`date`) = ?
+    query = '''select `start_date` as start, `end_date` as end, `title` 
+				from dinner.menu_2 where month(`start_date`) = ?
 			'''    
     
     data = g.mysql_db.select_params(query,params)
