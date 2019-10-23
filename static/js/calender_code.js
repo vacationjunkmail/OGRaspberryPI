@@ -1,3 +1,4 @@
+//#http://www.mikesmithdev.com/fullcalendar-jquery-ui-modal/
 $(document).ready(function() 
 {
 	$('#calendar').fullCalendar(
@@ -9,14 +10,24 @@ $(document).ready(function()
 			right: 'month,basicWeek,basicDay,year'
 			//right: 'month,basicWeek,basicDay,year'
 		},
-		navLinks: true,
-		editable: true,
+		navLinks: false,
+		editable: false,
 		eventLimit: true, // allow "more" link when too many events
+		//timezone:'America/New_York',
+		displayEventTime: false,
+		eventClick:function(info)
+		{
+			//console.log(info);
+			var start_date = info.start._i;
+			var end_date = info.end._i;
+			start_date = start_date.split("T");
+			end_date = end_date.split("T");
+			alert('Ate:'+info.title+'\nStart:'+start_date[0]+'\nEnd:'+end_date[0]);
+		},
 		events:function(start, end, timezone,callback) 
 		{
 			var cal_date = $('#calendar').fullCalendar('getDate');
 			cal_date = cal_date.format('YYYY/MM/DD');
-
 			var dataString = "date="+cal_date;
 			
 			//console.log($('#calendar').fullCalendar());
@@ -44,8 +55,8 @@ $(document).ready(function()
 						
 							events.push({
 							title: resp.data[i].title,
-							start: resp.data[i].start, // will be parsed
-							end: resp.data[i].end
+							start: resp.data[i].start+'T00:00:00', // will be parsed
+							end: resp.data[i].end+'T23:59:59'
 							});
 					}
 					$('#calendar-warning').hide();
