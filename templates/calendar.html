@@ -5,10 +5,15 @@
 		<meta charset='utf-8' />
 		<link href="{{ url_for('static', filename='css/fullcalendar.min.css') }}" rel="stylesheet" />
 		<script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
-		<script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+		<!--<script src="{#{ url_for('static', filename='jquery/jquery.min.js') }#}"></script>
+		<script src="{#{ url_for('static', filename='jquery/jquery-ui.min.js') }#}"></script>
+		-->
+		<script src="{{ url_for('static', filename='jquery-ui-1.11.4/external/jquery/jquery.js') }}"></script>
+		<script src="{{ url_for('static', filename='jquery-ui-1.11.4/jquery-ui.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/fullcalendar.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/calender_code.js') }}"></script>
 		<link rel="stylesheet" href="{{ url_for('static' , filename='css/calendar_code.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static' , filename='jquery-ui-1.11.4/jquery-ui.css') }}">
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 		</head>
 	<body>
@@ -59,5 +64,10 @@
 	</div>
 	<a href="/"><span class="glyphicon glyphicon-home"></span></a> &nbsp;
 	<div id='calendar'></div>
+	<div id="eventContent" title="Event Details" style="display:none;">
+	Title: <span id="title"></span><br />
+    Start: <span id="startTime"></span><br>
+    End: <span id="endTime"></span><br><br>
+</div>
 	</body>
 </html>
