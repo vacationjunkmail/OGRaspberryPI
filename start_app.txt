@@ -1,0 +1,2 @@
+/usr/bin/uwsgi --http-socket :9090 --plugins python3 --wsgi-file app.py
+
