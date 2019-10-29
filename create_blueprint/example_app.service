@@ -1,0 +1,13 @@
+[Unit]
+Description=uWsgi instance to start {route} Blueprint App http://127.0.0.1/{route}/.
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/{dir}
+ExecStart=/usr/bin/uwsgi {route}.ini
+
+[Install]
+WantedBy=multi-user.target
+
