@@ -58,17 +58,18 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `dinner` /*!40100 DEFAULT CHARACTER SET
 USE `dinner`;
 
 --
--- Table structure for table `menu`
+-- Table structure for table `menu_2`
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `menu` (
+CREATE TABLE `menu_2` (
   `id` int(10) unsigned NOT NULL,
-  `date` date DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
   `title` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `date_idx` (`date`)
+  UNIQUE KEY `start_date_idx` (`start_date`)
 );
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -103,6 +104,51 @@ CREATE TABLE `error_log` (
 
 --
 -- Dumping routines for database 'error_db'
+--
+
+--
+-- Current Database: `games`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `games` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `games`;
+
+--
+-- Table structure for table `game_console`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `game_console` (
+  `id` tinyint(3) unsigned NOT NULL,
+  `console_name` varchar(50) NOT NULL,
+  `console_shortname` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `console_name_idx` (`console_name`)
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `video_games`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `video_games` (
+  `id` smallint(3) unsigned NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `small_image` varchar(50) DEFAULT NULL,
+  `large_image` varchar(50) DEFAULT NULL,
+  `console_id` tinyint(3) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_console` (`console_id`),
+  CONSTRAINT `fk_console` FOREIGN KEY (`console_id`) REFERENCES `game_console` (`id`)
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping routines for database 'games'
 --
 
 --
@@ -692,4 +738,4 @@ CREATE TABLE `test_tbl` (
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-08 19:33:04
+-- Dump completed on 2019-11-11 12:14:18
