@@ -2,6 +2,7 @@
 
 import os
 import sys
+import re
 from pathlib import Path
 import argparse
 from shutil import copyfile
@@ -15,8 +16,8 @@ args = parser.parse_args()
 #new_directory = "{}/{}".format(Path().absolute().parent,args.dir)
 current_directory = Path().absolute()
 new_directory = "{}/{}".format(Path().absolute(),args.dir)
-bp_directory_list = ['template','static','routes']
-bp_files_list = ['app.py','uwsgi.ini','example_app.service','routes_file.py','template_file.html']
+bp_directory_list = ['templates','static','routes']
+bp_files_list = ['app.py','uwsgi.ini','example_app.service','routes_file.py','templates_file.html']
 port_file = "{}/port.txt".format(current_directory)
 if not Path(new_directory).is_dir():
 	
@@ -27,7 +28,12 @@ if not Path(new_directory).is_dir():
 
 	os.mkdir(new_directory)
 	for folder in bp_directory_list:
-		os.mkdir(new_directory+"/"+folder)
+		if folder == 'templates':
+			os.mkdir(new_directory+"/"+folder)
+			os.mkdir(new_directory+"/"+folder+"/"+args.route)
+		else:
+			os.mkdir(new_directory+"/"+folder)
+		#print("{}/{}".format(new_directory,folder))
 
 	init_file = "{}/__init__.py".format(new_directory)
 	
@@ -40,6 +46,7 @@ if not Path(new_directory).is_dir():
 		#source = Path(source)
 		destination = "{}/{}".format(new_directory,file)
 		#destination = Path(destination)
+		#print("source = {}\n  dest= {}".format(source,destination))
 		copyfile(source, destination)
 
 	#replace in file
@@ -58,6 +65,11 @@ if not Path(new_directory).is_dir():
 			d = Path(dir)
 			if d.is_dir():
 				f = file.replace("_file","")
+				if f == "templates.html":
+					d = "{}/{}".format(d,args.route)
+					f = "{}.html".format(args.route)
+				else:
+					f = "{}.py".format(args.route)
 				destination = "{}/{}".format(d,f)
 				source = "{}/{}".format(new_directory,file)
 				Path(source).rename(destination)
@@ -68,6 +80,9 @@ if not Path(new_directory).is_dir():
 		if file == "example_app.service":
 			mv_service = "{}/{}".format(new_directory,file)
 			to_service = "{}/{}.service".format(new_directory,args.dir)
+			Path(mv_service).rename(to_service)
+		
+
 	#append most recent port id to file
 	port = "{}\n".format(port)
 	with open(port_file,'a+') as f:
