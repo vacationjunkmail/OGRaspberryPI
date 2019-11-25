@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-#/usr/local/lib/python4.4/site-packages/mysql_conn/connect_mysql.py
+#/usr/local/lib/python3.4/site-packages/mysql_conn/connect_mysql.py
 #https://stackoverflow.com/questions/247770/how-to-retrieve-a-modules-path
 #vi /home/pi/.local/lib/python3.4/site-packages/mysql_conn/connect_mysql.py
 #in_transaction
@@ -9,8 +9,11 @@ import os, datetime, re, sys, time
 from mysql_conn.connect_mysql import get_connection
 
 #select_statement = '''select id,name from games.video_games where id= 1;'''
-select_statement = '''select v.id,v.`name`,g.console_shortname from games.video_games as v inner join games.game_console as g on g.id=v.console_id;'''
-select_consoles = 'select console_shortname from games.game_console;'
+console_id = 10
+select_statement = '''select v.id,v.`name`,g.console_shortname 
+			from games.video_games as v inner join games.game_console as g on g.id=v.console_id 
+			where g.id = {} and (v.small_image ='' or v.large_image = '' or v.small_image is null or v.large_image is null);'''.format(console_id)
+select_consoles = 'select console_shortname from games.game_console where id = {};'.format(console_id)
 update_query = ''' update games.video_games set large_image=%s, small_image=%s where id = %s;'''
 def stop_me():
 	print("Planned exit Program did not finish!")
@@ -19,7 +22,8 @@ def stop_me():
 
 script_name = os.path.abspath(__file__)
 
-path = '/var/www/blue_print_app/static/images'
+#path = '/var/www/blue_print_app/static/images'
+path = '/var/www/public/images'
 
 mysql_db = get_connection()
 video_game_query = mysql_db.select_query(select_statement)
@@ -46,7 +50,6 @@ for row in console_data:
 		if len(files):
 			#d[parent_dir][item].append(files)
 			d[parent_dir][item]=files
-
 for row in video_game_data:
 	params = []
 	if isinstance(row[1], bytes):
@@ -65,10 +68,12 @@ for row in video_game_data:
 
 	if len(large):
 		l = large[0]
+
+	if len(small) == 0 and len(large) == 0:
+		continue
 			
 	params = [l,s,row[0]]
 	mysql_db = get_connection()
 	mysql_db.update_statement(update_query,params)
 	mysql_db.close_connection()
-stop_me()
 
