@@ -58,21 +58,3 @@ with open(file,'r+') as f:
 						params = [id,character_id]
 						_insert(insert_video_game_and_characters,params)
 stop_me()
-
-mysql_db = get_connection()
-video_game_query = mysql_db.select_query(select_statement)
-video_game_data = video_game_query.fetchall()
-mysql_db.close_connection()
-
-mysql_db = get_connection()
-console_query = mysql_db.select_query(select_consoles)
-console_data = console_query.fetchall()
-mysql_db.close_connection()
-			
-#params = [l,s,row[0]]
-#mysql_db = get_connection()
-#mysql_db.update_statement(update_query,params)
-#mysql_db.close_connection()
-
-stop_me()
-

@@ -9,7 +9,7 @@ import os, datetime, re, sys, time
 from mysql_conn.connect_mysql import get_connection
 
 #select_statement = '''select id,name from games.video_games where id= 1;'''
-console_id = 10
+console_id = 11
 select_statement = '''select v.id,v.`name`,g.console_shortname 
 			from games.video_games as v inner join games.game_console as g on g.id=v.console_id 
 			where g.id = {} and (v.small_image ='' or v.large_image = '' or v.small_image is null or v.large_image is null);'''.format(console_id)
@@ -59,10 +59,8 @@ for row in video_game_data:
 	regex = re.compile(r'^{}'.format(image),re.IGNORECASE)
 	small = [f for f in d[system]['small'] if regex.search(f)]
 	large = [f for f in d[system]['large'] if regex.search(f)]
-	
 	s = ''
 	l = ''
-
 	if len(small):
 		s = small[0]
 
