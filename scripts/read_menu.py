@@ -59,6 +59,7 @@ for file in os.listdir(path):
 			if len(line) == 3:
 				params = get_data(line)
 				response = mysql_db.insert_statement(insert_query,params)
+				response = str(response)
 				if error_regex.search(response):
 					line = ":".join(line)
 					error_params=[response,line,remove_file,script_name]

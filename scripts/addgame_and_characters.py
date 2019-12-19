@@ -30,15 +30,21 @@ def _insert(_query,_params):
 with open(doc,'r') as r:
 	for row in r:
 		row = row.strip()
-		row = row.split(':')
-		video_game_data = row[0].split('-')
+		row = row.split('::')
+		if len(row) != 2:
+			print("The row does not have the correct amount of data length of :: is not 2")
+			sys.exit()
+		video_game_data = row[0].split('=')
+		if len(video_game_data) != 2:
+			print("The row does not have the correct amount of data length of = is not 1")
+			sys.exit()
 		params=[video_game_data[0],video_game_data[1]]
 		results = _insert(insert_video_game,params)
-		print(results)
+		#print(results)
 		try:
 			game_id = results[1]
 			characters_list = row[1].split(',')
-			print("{} id is {}".format(video_game_data[0],game_id))
+			#print("{} id is {}".format(video_game_data[0],game_id))
 			for character in characters_list:
 				character = character.strip()
 				param = [character]
