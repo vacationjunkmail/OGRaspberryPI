@@ -3,4 +3,4 @@ cd "$(dirname "$0")";
 echo $PWD;
 mysqldump --routines --no-data --skip-opt --all-databases > database_skeleton.sql 
 #Dumps the data in the database
-#mysqldump --all-databases > database_skeleton_total.sql
+mysqldump --all-databases > database_skeleton_total.sql
